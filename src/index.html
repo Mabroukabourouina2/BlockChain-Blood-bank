@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion de Don de Sang</title>
+  <link rel="stylesheet" type="text/css" href="style.css"> <!-- Lien vers le fichier CSS -->
+ 
+ <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script> <!-- Include Web3.js from a CDN -->
+ <script type="module" src="./js/app.js"></script> <!-- Le code JavaScript d'interaction avec la blockchain -->
+ 
+</head>
+<body>
+  <!-- Section Principale -->
+  <div id="mainSection">
+    <center>
+      <br>
+      <img src="./blood.png" height="100" alt="">
+    <h1>Bienvenue à la Gestion de Don de Sang</h1>
+    <p>Cliquez sur le bouton ci-dessous pour afficher la liste des donneurs.</p>
+    <button onclick="showDonorsSection()">Afficher la Liste des Donneurs</button>
+  </center>
+    <br>
+    <div class="container">
+      <h1>Blood Donation Registration</h1>
+  
+      <div class="form-group">
+        <label for="city">Choose your city:</label>
+        <select id="city" onchange="updateCenters()">
+          <option value="" disabled selected>Select your city</option>
+          <option value="Kebili">Kebili</option>
+          <option value="Tunis">Tunis</option>
+          <option value="Sfax">Sfax</option>
+          <option value="Sousse">Sousse</option>
+          <option value="Kairouan">Kairouan</option>
+          <option value="Gabès">Gabès</option>
+          <option value="Bizerte">Bizerte</option>
+          <option value="Ariana">Ariana</option>
+          <option value="Gafsa">Gafsa</option>
+          <option value="El Kef">El Kef</option>
+        
+        </select>
+        
+      </div>
+  
+      <div class="form-group">
+        <label for="bloodCenter">Choose a blood donation center:</label>
+        <select id="bloodCenter">
+          <option value="" disabled selected>Select a center</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <h2>Enter your details</h2>
+        <label for="name">First Name:</label>
+        <input type="text" id="name" required>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required>
+  
+        <label for="cin">CIN:</label>
+        <input type="text" id="cin" required>
+  
+        <label for="bloodType">Blood Type:</label>
+        <select id="bloodType" required>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+        </select>
+  
+        <label for="preferredTime">Preferred Time to Visit:</label>
+        <input type="time" id="preferredTime" required>
+  
+        <button onclick="register()">Register</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section des Donneurs (invisible par défaut) -->
+  <div id="donorsSection" style="display: none;">
+    <center>
+      <br>
+      <img src="./blood.png" height="100" alt="">
+    <h2>Liste des Donneurs de Sang</h2>
+    <div id="donorsList">
+      <!-- La liste des donneurs sera remplie par fetchDonors() -->
+    </div>
+    <br>
+    <button onclick="showMainSection()">Retour à la page principale</button>
+  </center>
+  </div>
+  <script>
+   const donors = [];
+    function updateCenters() {
+   const city = document.getElementById("city").value;
+   const centerSelect = document.getElementById("bloodCenter");
+
+   // Effacer les options actuelles
+   centerSelect.innerHTML = "";
+   
+   if (city === "Kebili") {
+    const centers = ["Souk Lahad", "Nagga Center"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else   if (city === "Tunis") {
+    const centers = ["Centre National de Transfusion Sanguine", "Centre de Tunis Nord"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "Sfax") {
+    const centers = ["Centre de Transfusion Sanguine de Sfax", "Centre de Sfax Sud"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "Sousse") {
+    const centers = ["Centre de Transfusion Sanguine de Sousse"];
+    centers.forEach(center => {
+      const option = document.createate("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "Kairouan") {
+    const centers = ["Centre de Transfusion Sanguine de Kairouan"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "Gabès") {
+    const centers = ["Centre de Transfusion Sanguine de Gabès"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "Bizerte") {
+    const centers = ["Centre de Transfusion Sanguine de Bizerte"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "Ariana") {
+    const centers = ["Centre de Transfusion Sanguine de l'Ariana"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  } else if (city === "El Kef") {
+    const centers = ["Centre de Transfusion Sanguine de El Kef"];
+    centers.forEach(center => {
+      const option = document.createElement("option");
+      option.value = center;
+      option.textContent = center;
+      centerSelect.appendChild(option);
+    });
+  }
+ }
+
+ function register() {
+   const name = document.getElementById("name").value;
+   const lastName = document.getElementById("lastName").value;
+   const cin = document.getElementById("cin").value;
+   const bloodType = document.getElementById("bloodType").value;
+   const preferredTime = document.getElementById("preferredTime").value;
+
+   console.log("Name:", name);
+   console.log("Last Name:", lastName);
+   console.log("CIN:", cin);
+   console.log("Blood Type:", bloodType);
+   console.log("Preferred Time:", preferredTime);
+ // Créer un objet donneur
+ const donor = {
+    name: name,
+   
+    bloodType: bloodType,
+    preferredTime: preferredTime
+  };
+
+  // Ajouter le donneur à la liste globale
+  donors.push(donor);
+ document.getElementById("name").value = "";
+   document.getElementById("lastName").value= "";
+ document.getElementById("cin").value= "";
+    document.getElementById("bloodType").value= "";
+   document.getElementById("preferredTime").value= "";
+
+   alert("Registration successful!");
+ }
+
+ // Afficher la section des donneurs et masquer la section principale
+ function showDonorsSection() {
+   document.getElementById("mainSection").style.display = "none"; // Masque la section principale
+   document.getElementById("donorsSection").style.display = "block"; // Affiche la section des donneurs
+   fetchDonors(); // Charge la liste des donneurs
+ }
+
+ // Récupérer la liste des donneurs à partir du contrat "Blood"
+ function fetchDonors() {
+  const donorsList = document.getElementById("donorsList");
+
+  if (donors.length === 0) {
+    donorsList.innerText = "Aucun donneur enregistré.";
+  } else {
+    // Afficher les donneurs
+    donorsList.innerHTML = donors.map(donor =>
+      `<div>Nom: ${donor.name} , Type de Sang: ${donor.bloodType}, Préférence horaire: ${donor.preferredTime}</div>`
+    ).join('');
+  }
+}
+
+
+ // Masquer la section des donneurs et réafficher la section principale
+ function showMainSection() {
+   document.getElementById("donorsSection").style.display = "none"; // Masque la section des donneurs
+   document.getElementById("mainSection").style.display = "block"; // Affiche la section principale
+ }
+</script>
+</body>
+
+</html>
